@@ -1,33 +1,17 @@
 package com.umc.movielogserver.repository;
 
-import lombok.RequiredArgsConstructor;
-import org.springframework.jdbc.core.JdbcTemplate;
-import org.springframework.stereotype.Repository;
+import com.umc.movielogserver.entity.Book;
+import org.springframework.data.jpa.repository.EntityGraph;
+import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.List;
-import java.util.Map;
 
-@Repository
-@RequiredArgsConstructor
-public class BookRepository {
+public interface BookRepository extends JpaRepository<Book, Long> {
 
-    private final JdbcTemplate jdbcTemplate;
+    @Override
+    @EntityGraph(attributePaths = "category")
+    List<Book> findAll();
 
-    public List<Map<String, Object>> findAll() {
-        String sql = "SELECT * FROM book";
-        return jdbcTemplate.queryForList(sql);
-    }
-    public void save(Map<String, Object> body){
-        String sql = "INSERT INTO book (category_id, title, description, is_available) VALUES (?, ?, ?, true)";
-        jdbcTemplate.update(
-                sql,
-                body.get("categoryId"),
-                body.get("title"),
-                body.get("description")
-        );
-    }
-    public List<Map<String, Object>> findByCategoryId(Integer categoryId) {
-        String sql = "SELECT * FROM book WHERE category_id = ?";
-        return jdbcTemplate.queryForList(sql, categoryId);
-    }
+    @EntityGraph(attributePaths = "category")
+    List<Book> findByCategoryId(Long categoryId);
 }
