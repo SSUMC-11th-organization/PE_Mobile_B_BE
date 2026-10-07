@@ -1,4 +1,4 @@
-package com.umc.study.Service;
+package com.umc.study.service;
 
 import com.umc.study.repository.RentalRepository;
 import lombok.RequiredArgsConstructor;
