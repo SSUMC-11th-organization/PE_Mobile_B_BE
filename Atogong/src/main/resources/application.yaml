@@ -7,3 +7,9 @@ spring:
     url: ${DB_URL}
     username: ${DB_USER}
     password: ${DB_PW}
+
+  jpa:
+    hibernate:
+      ddl-auto: validate
+    open-in-view: false
+    show-sql: true    # JPA가 실제로 날리는 SQL이 콘솔에 찍힘.

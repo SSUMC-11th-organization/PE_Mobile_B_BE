@@ -8,7 +8,7 @@ import java.util.Map;
 
 @Repository
 @RequiredArgsConstructor
-public class RentalRepository {
+public class RentalJdbcRepository {
 
     private final JdbcTemplate jdbcTemplate;
 
