@@ -1,7 +1,6 @@
 package com.umc.study.controller;
 
-import com.umc.study.Service.RentalService;
-import com.umc.study.repository.RentalRepository;
+import com.umc.study.service.RentalService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
