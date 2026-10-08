@@ -1,7 +1,11 @@
 package com.umc.springstudy.controller;
 
+import com.umc.springstudy.dto.book.BookResponse;
+import com.umc.springstudy.dto.book.CreateBookRequest;
 import com.umc.springstudy.service.BookService;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -14,18 +18,13 @@ public class BookController {
     private final BookService bookService;
 
     @GetMapping
-    public List<Map<String, Object>> getBooks(){
-        return bookService.getAllBooks();
-    }
-
-    @GetMapping("/category/{categoryId}")
-    public List<Map<String, Object>> getBookByCategory(@PathVariable("categoryId") Long id){
-        return bookService.getBookByCategory(id);
+    public List<BookResponse> getBooks() {
+        return bookService.getBooks();
     }
 
     @PostMapping
-    public String createBook(@RequestBody Map<String, Object> body){
-        bookService.createBook(body);
-        return "도서 등록이 완료되었습니다!";
+    @ResponseStatus(HttpStatus.CREATED)
+    public BookResponse createBook(@Valid @RequestBody CreateBookRequest request) {
+        return bookService.createBook(request);
     }
 }
