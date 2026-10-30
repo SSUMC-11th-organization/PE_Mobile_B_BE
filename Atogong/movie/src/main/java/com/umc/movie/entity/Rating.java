@@ -20,6 +20,7 @@ public class Rating extends BaseTimeEntity {
     @JoinColumn(name = "member_id", nullable = false)
     private Member member;
 
+    // TMDB가 부여한 영화 id를 그대로 저장. 영화 테이블이 우리 DB에 없으므로 FK가 아닌 일반 컬럼
     @Column(name = "movie_id", nullable = false)
     private Long movieId;
 
