@@ -34,7 +34,7 @@ public class MemberService {
     @Transactional
     public MemberResponse signUp(SignUpRequest request) {
         if (memberRepository.existsByEmail(request.email())){
-            throw new IllegalArgumentException("이미 사용 중인 아메일입니다.");
+            throw new IllegalArgumentException("이미 사용 중인 이메일입니다.");
         }
 
         if (memberRepository.existsByNickname(request.nickname())){
