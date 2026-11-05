@@ -1,13 +1,17 @@
 package com.umc.movie.controller;
 
-import io.swagger.v3.oas.annotations.Operation;
-import io.swagger.v3.oas.annotations.Parameter;
-import io.swagger.v3.oas.annotations.Parameters;
-import io.swagger.v3.oas.annotations.tags.Tag;
+import com.umc.movie.dto.ApiResponse;
+import com.umc.movie.dto.MemberResponse;
 import com.umc.movie.dto.EmailCheckResponse;
 import com.umc.movie.dto.NickNameCheckResponse;
+import com.umc.movie.dto.SignUpRequest;
 import com.umc.movie.service.MemberService;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.Parameter;
+import io.swagger.v3.oas.annotations.tags.Tag;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @Tag(name = "Member", description = "회원 관리 API")
@@ -33,5 +37,15 @@ public class MemberController {
             @PathVariable String email)
     {
         return memberService.checkEmail(email);
+    }
+
+    @Operation(summary = "회원가입", description = "이메일, 비밀번호, 닉네임을 입력받아 회원을 등록합니다.")
+    @PostMapping
+    public ResponseEntity<ApiResponse<MemberResponse>> signUp(
+            @Valid @RequestBody SignUpRequest request
+    ) {
+        MemberResponse response = memberService.signUp(request);
+        return ResponseEntity.status(201)
+                .body(ApiResponse.created("회원가입에 성공했습니다.", response));
     }
 }
