@@ -28,6 +28,10 @@ dependencies {
     runtimeOnly 'com.mysql:mysql-connector-j'
     annotationProcessor 'org.projectlombok:lombok'
 
+    implementation 'io.jsonwebtoken:jjwt-api:0.12.6'
+    runtimeOnly 'io.jsonwebtoken:jjwt-impl:0.12.6'
+    runtimeOnly 'io.jsonwebtoken:jjwt-jackson:0.12.6'
+
     // 2. 테스트 의존성 수정 (스프링 부트 공식 테스트 스타터는 보통 하나로 통합되어 있습니다)
     testImplementation 'org.springframework.boot:spring-boot-starter-test' // 개별 테스트 대신 통합 테스트 스타터 사용
 
