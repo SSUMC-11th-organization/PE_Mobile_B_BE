@@ -10,4 +10,6 @@ public interface MemberRepository extends JpaRepository<Member, Long> {
     boolean existsByEmail(String email);
     // 로그인용. exists와 달리 회원 자체를 꺼내옴
     Optional<Member> findByEmail(String email);
+    // "이 닉네임을 쓰는 회원이 있는가? 단, 나 자신은 빼고"
+    boolean existsByNicknameAndMemberIdNot(String nickname, Long memberId);
 }
