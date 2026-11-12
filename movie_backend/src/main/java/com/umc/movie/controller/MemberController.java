@@ -1,10 +1,7 @@
 package com.umc.movie.controller;
 
-import com.umc.movie.dto.ApiResponse;
-import com.umc.movie.dto.MemberResponse;
-import com.umc.movie.dto.EmailCheckResponse;
-import com.umc.movie.dto.NickNameCheckResponse;
-import com.umc.movie.dto.SignUpRequest;
+import com.umc.movie.dto.*;
+import com.umc.movie.interceptor.AuthInterceptor;
 import com.umc.movie.service.MemberService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
@@ -47,5 +44,25 @@ public class MemberController {
         MemberResponse response = memberService.signUp(request);
         return ResponseEntity.status(201)
                 .body(ApiResponse.created("회원가입에 성공했습니다.", response));
+    }
+
+    @Operation(summary = "회원정보 조회")
+    @GetMapping("/me")
+    public ResponseEntity<ApiResponse<MemberInfoResponse>> getMyInfo(
+            @RequestAttribute(AuthInterceptor.MEMBER_ID) Long memberId
+    ) {
+        MemberInfoResponse response = memberService.getMyInfo(memberId);
+
+        return ResponseEntity.ok(ApiResponse.ok("회원 정보를 조회했습니다.", response));
+    }
+
+    @Operation(summary = "닉네임 변경")
+    @PatchMapping("/me")
+    public ResponseEntity<ApiResponse<MemberInfoResponse>> updateMyInfo(
+            @RequestAttribute(AuthInterceptor.MEMBER_ID) Long memberId,
+            @RequestBody @Valid MemberUpdateRequest request
+    ) {
+        MemberInfoResponse response = memberService.updateMyInfo(memberId, request);
+        return ResponseEntity.ok(ApiResponse.ok("회원 정보를 수정했습니다.", response));
     }
 }
