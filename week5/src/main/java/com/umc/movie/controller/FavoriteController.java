@@ -1,11 +1,18 @@
 package com.umc.movie.controller;
 
+import com.umc.movie.config.SwaggerConfig;
 import com.umc.movie.dto.ApiResponse;
 import com.umc.movie.dto.CreateFavoriteRequest;
 import com.umc.movie.dto.FavoriteResponse;
 import com.umc.movie.dto.FavoriteStatusResponse;
 import com.umc.movie.interceptor.AuthInterceptor;
 import com.umc.movie.service.FavoriteService;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.media.ExampleObject;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -24,10 +31,64 @@ import java.util.List;
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/favorites")
+@Tag(name = "즐겨찾기", description = "영화 즐겨찾기 등록·조회·해제 API")
+@SecurityRequirement(name = SwaggerConfig.BEARER_AUTH)
 public class FavoriteController {
 
     private final FavoriteService favoriteService;
 
+    @Operation(summary = "즐겨찾기 등록", description = "로그인한 회원이 영화를 즐겨찾기에 등록한다.")
+    @ApiResponses({
+            @io.swagger.v3.oas.annotations.responses.ApiResponse(
+                    responseCode = "201",
+                    description = "즐겨찾기 등록 성공",
+                    content = @Content(
+                            mediaType = "application/json",
+                            examples = @ExampleObject(value = """
+                                    {
+                                      "isSuccess": true,
+                                      "code": "COMMON201",
+                                      "message": "즐겨찾기를 등록했습니다.",
+                                      "result": {
+                                        "favoriteId": 1,
+                                        "movieId": 550,
+                                        "createdAt": "2026-11-16T12:00:00"
+                                      }
+                                    }
+                                    """)
+                    )
+            ),
+            @io.swagger.v3.oas.annotations.responses.ApiResponse(
+                    responseCode = "401",
+                    description = "Authorization 헤더가 없거나 Bearer 형식이 아님",
+                    content = @Content(
+                            mediaType = "application/json",
+                            examples = @ExampleObject(value = """
+                                    {
+                                      "isSuccess": false,
+                                      "code": "AUTH401_2",
+                                      "message": "로그인이 필요한 요청입니다.",
+                                      "result": null
+                                    }
+                                    """)
+                    )
+            ),
+            @io.swagger.v3.oas.annotations.responses.ApiResponse(
+                    responseCode = "409",
+                    description = "이미 즐겨찾기한 영화",
+                    content = @Content(
+                            mediaType = "application/json",
+                            examples = @ExampleObject(value = """
+                                    {
+                                      "isSuccess": false,
+                                      "code": "FAVORITE409_1",
+                                      "message": "이미 이 영화를 즐겨찾기하셨습니다.",
+                                      "result": null
+                                    }
+                                    """)
+                    )
+            )
+    })
     @PostMapping
     public ResponseEntity<ApiResponse<FavoriteResponse>> createFavorite(
             @RequestAttribute(AuthInterceptor.MEMBER_ID) Long memberId,

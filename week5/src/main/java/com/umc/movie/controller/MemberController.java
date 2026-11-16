@@ -9,6 +9,8 @@ import com.umc.movie.dto.NicknameCheckResponse;
 import com.umc.movie.dto.SignUpRequest;
 import com.umc.movie.interceptor.AuthInterceptor;
 import com.umc.movie.service.MemberService;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -24,6 +26,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequestMapping("/members")
 @RequiredArgsConstructor
+@Tag(name = "회원", description = "회원가입과 내 정보 API")
 public class MemberController {
 
     private final MemberService memberService;
@@ -53,6 +56,10 @@ public class MemberController {
         return memberService.checkEmail(email);
     }
 
+    @Operation(
+            summary = "회원가입",
+            description = "이메일, 비밀번호, 닉네임으로 회원가입한다. 토큰 없이 호출할 수 있는 공개 API다."
+    )
     @PostMapping
     public ResponseEntity<ApiResponse<MemberResponse>> signUp(@Valid @RequestBody SignUpRequest request) {
         return ResponseEntity.status(201)
