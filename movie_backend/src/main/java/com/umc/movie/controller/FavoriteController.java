@@ -21,7 +21,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
 
-@Tag(name = "Member", description = "회원 관리 API")
+@Tag(name = "Favorite", description = "즐겨찾기 관리 API")
 @RestController
 @RequiredArgsConstructor
 public class FavoriteController {
