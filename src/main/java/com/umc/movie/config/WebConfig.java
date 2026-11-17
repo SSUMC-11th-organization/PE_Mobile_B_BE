@@ -31,7 +31,7 @@ public class WebConfig implements WebMvcConfigurer {
                         "/auth/**",
                         "/members",
                         "/members/nickname/**",
-                        "members/email/**",
+                        "/members/email/**",
                         "/members/*/ratings",
                         "/error"
                 );
