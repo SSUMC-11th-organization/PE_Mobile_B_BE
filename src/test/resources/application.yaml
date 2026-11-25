@@ -1,0 +1,13 @@
+spring:
+  datasource:
+    url: jdbc:h2:mem:testdb;MODE=MySQL;DB_CLOSE_DELAY=-1
+    username: sa
+    password:
+  jpa:
+    hibernate:
+      ddl-auto: create-drop
+    open-in-view: false
+
+jwt:
+  secret: test-secret-key-for-junit-must-be-at-least-32-bytes-long
+  access-expiration: 3600000
