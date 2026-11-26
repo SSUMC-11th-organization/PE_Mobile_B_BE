@@ -1,5 +1,6 @@
 package com.umc.movie.controller;
 
+import com.umc.movie.config.SwaggerConfig;
 import com.umc.movie.dto.ApiResponse;
 import com.umc.movie.dto.CreateFavoriteRequest;
 import com.umc.movie.dto.FavoriteResponse;
@@ -7,6 +8,7 @@ import com.umc.movie.dto.FavoriteStatusResponse;
 import com.umc.movie.interceptor.AuthInterceptor;
 import com.umc.movie.service.FavoriteService;
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -24,6 +26,7 @@ import java.util.List;
 @Tag(name = "Favorite", description = "즐겨찾기 관리 API")
 @RestController
 @RequiredArgsConstructor
+@SecurityRequirement(name = SwaggerConfig.BEARER_AUTH)
 public class FavoriteController {
     private final FavoriteService favoriteService;
 
