@@ -1,10 +1,12 @@
 package com.umc.movie.controller;
 
+import com.umc.movie.config.SwaggerConfig;
 import com.umc.movie.dto.*;
 import com.umc.movie.interceptor.AuthInterceptor;
 import com.umc.movie.service.MemberService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -46,6 +48,7 @@ public class MemberController {
                 .body(ApiResponse.created("회원가입에 성공했습니다.", response));
     }
 
+    @SecurityRequirement(name = SwaggerConfig.BEARER_AUTH)
     @Operation(summary = "회원정보 조회")
     @GetMapping("/me")
     public ResponseEntity<ApiResponse<MemberInfoResponse>> getMyInfo(
@@ -56,6 +59,7 @@ public class MemberController {
         return ResponseEntity.ok(ApiResponse.ok("회원 정보를 조회했습니다.", response));
     }
 
+    @SecurityRequirement(name = SwaggerConfig.BEARER_AUTH)
     @Operation(summary = "닉네임 변경")
     @PatchMapping("/me")
     public ResponseEntity<ApiResponse<MemberInfoResponse>> updateMyInfo(

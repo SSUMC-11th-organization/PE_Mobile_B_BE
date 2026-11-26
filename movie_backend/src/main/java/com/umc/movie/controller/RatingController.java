@@ -1,6 +1,7 @@
 // src/main/java/com/umc/movie/controller/RatingController.java
 package com.umc.movie.controller;
 
+import com.umc.movie.config.SwaggerConfig;
 import com.umc.movie.dto.ApiResponse;
 import com.umc.movie.dto.CreateRatingRequest;
 import com.umc.movie.dto.RatingResponse;
@@ -9,6 +10,7 @@ import com.umc.movie.interceptor.AuthInterceptor;
 import com.umc.movie.service.RatingService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -33,6 +35,7 @@ public class RatingController {
         return ratingService.getRatingsByMember(memberId);
     }
 
+    @SecurityRequirement(name = SwaggerConfig.BEARER_AUTH)
     @Operation(summary = "평점 등록", description = "특정 영화에 대한 회원의 별점과 후기를 등록합니다.")
     @PostMapping("/ratings")
     public ResponseEntity<ApiResponse<RatingResponse>> create(
@@ -44,6 +47,7 @@ public class RatingController {
                 .body(ApiResponse.created("평점을 등록했습니다.", response));
     }
 
+    @SecurityRequirement(name = SwaggerConfig.BEARER_AUTH)
     @Operation(summary = "평점 수정", description = "본인이 작성한 평점의 별점과 후기를 수정합니다.")
     @PatchMapping("/ratings/{ratingId}")
     public ResponseEntity<ApiResponse<RatingResponse>> update(
@@ -59,6 +63,7 @@ public class RatingController {
 
     }
 
+    @SecurityRequirement(name = SwaggerConfig.BEARER_AUTH)
     @Operation(summary = "평점 삭제", description = "본인이 작성한 평점을 삭제합니다.")
     @DeleteMapping("/{memberId}/ratings/{ratingId}")
     public ResponseEntity<ApiResponse<Object>> delete(
