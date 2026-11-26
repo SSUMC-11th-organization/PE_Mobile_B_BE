@@ -11,10 +11,10 @@ import org.springframework.context.annotation.Configuration;
 @Configuration
 public class SwaggerConfig {
 
-    private static final String SECURITY_SCHEME_NAME = "BearerAuth";
+    private static final String SECURITY_SCHEME_NAME = "bearerAuth";
 
     @Bean
-    public OpenAPI openAPI() {
+    public OpenAPI movieOpenAPI() {
         return new OpenAPI()
                 .info(new Info()
                         .title("Movie API 명세서")
